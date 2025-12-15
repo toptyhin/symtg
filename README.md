@@ -24,6 +24,12 @@
 git clone <repo-url> posiflora
 cd posiflora
 ```
+Собрать фронтенд (не успел сделать поймал в последний момент): 
+```bash
+  cd frontend
+  yarn install
+  yarn build
+```
 
 ### 2. Запустить docker‑сервисы
 

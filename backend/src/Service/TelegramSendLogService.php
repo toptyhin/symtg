@@ -51,4 +51,13 @@ class TelegramSendLogService
 
         return $log;
     }
+
+    public function hasSuccessfulLog(Shop $shop, Order $order): bool
+    {
+        return (bool) $this->telegramSendLogRepository->findOneBy([
+            'shop'   => $shop,
+            'order'  => $order,
+            'status' => SendStatus::SENT,
+        ]);
+    }
 }

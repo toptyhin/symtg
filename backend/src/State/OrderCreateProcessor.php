@@ -56,7 +56,10 @@ final class OrderCreateProcessor implements ProcessorInterface
 
         // Добавляем в телеграм сообщение о новом заказе
         $telegramIntegration = $shop->getTelegramIntegration();
-        if ($telegramIntegration) {
+        if ($telegramIntegration && $telegramIntegration->isEnabled()) {
+            if ($this->telegramSendLogService->hasSuccessfulLog($shop, $data)) {
+                return $data;
+            }
             $message = "Новый заказ: № " . $data->getNumber() . ", на сумму " . $data->getTotal() . " рублей. Клиент: " . $data->getCustomerName();
             try {
                 $this->telegramNotifier->sendMessage(

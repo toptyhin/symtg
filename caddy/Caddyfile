@@ -1,0 +1,25 @@
+# Обрабатываем PHP-запросы через PHP-FPM
+localhost {
+    root * /var/www/symfony/public
+    encode gzip
+    file_server
+    php_fastcgi php:9000 {
+        # Важно для работы Symfony routing
+        try_files {path} {path}/ /index.php
+    }
+    log {
+        output file /var/log/caddy/access.log {
+            roll_size 10MB
+            roll_keep 5
+            roll_keep_for 7d
+        }
+    }
+    
+    # Настройки для API
+    header {
+        # CORS заголовки для API
+        Access-Control-Allow-Origin *
+        Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+        Access-Control-Allow-Headers "Content-Type, Authorization"
+    }
+}
